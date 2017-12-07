@@ -34,6 +34,9 @@
 (define (start-all programs)
   (map start-p programs))
 
+(define (close-all programs)
+  (map close-p programs))
+
 ;;;Main function, run when the executable is opened.
 ;;;   Opens programs, loops to see if poe is open, then closes everything.
 (define main
@@ -41,4 +44,5 @@
   ;;Do all of the following (iterative time)
   (begin
     (start-all (cons poe poe-assistants))
-    (while (is-running? poe)))
+    ;Wait here while POE is running
+    (close-all poe-assistants)))
