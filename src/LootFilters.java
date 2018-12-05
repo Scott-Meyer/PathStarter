@@ -1,4 +1,5 @@
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
  * The intention of this class is to update loot filters.
@@ -7,11 +8,25 @@ import java.io.InputStream;
  * @author srmeyer
  *
  */
-public class LootFilters {
+public class LootFilters
+    implements Plugin{
+    private final static Logger LOGGER =
+            Logger.getLogger(LootFilters.class.getName());
+    private Settings settings;
     public LootFilters() {
-        System.out.println(lootFilterLocation());
+        LOGGER.info("Loot filter location: "+lootFilterLocation());
     }
-    
+
+    @Override
+    public void startup(Settings s) {
+        settings = s;
+    }
+
+    @Override
+    public void run() {
+
+    }
+
     /**
      * Get location where loot filters should go
      * Thanks: https://stackoverflow.com/questions/9677692/getting-my-documents-path-in-java

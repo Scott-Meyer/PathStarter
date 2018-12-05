@@ -34,3 +34,7 @@ TAGS
 
 # coredumps
 *.core
+
+/.idea/
+/out/
+*.iml

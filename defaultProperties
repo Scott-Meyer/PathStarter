@@ -1,2 +1,4 @@
-plugins=logout,trademacro
+plugins=AppPlugin,LootFilters
 steam=true
+
+AppPlugin.Apps = trademacro,logout

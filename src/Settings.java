@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 /**
  * Gets the settings from properties.
@@ -14,12 +16,18 @@ import java.util.Properties;
  **/
 public class Settings 
     extends Props{
+    private final static Logger LOGGER =
+            Logger.getLogger(Settings.class.getName());
     private static String defaultPropertiesFile = "defaultProperties";
     private static String userPropertiesFile = "userProperties";
     public static Properties applicationProps;
-    public HashMap<String, Plugin> plugins = new HashMap<String, Plugin>();
+    public static String[] plugins;
+
     public Settings() {
         super(userPropertiesFile, setupDefaults());
+        plugins = applicationProps.getProperty("plugins").split(",");
+
+        /*
         for (String plugin : applicationProps.getProperty("plugins").split(",")) {
             try {
                 Plugin plg = new Plugin(plugin+".plugin");
@@ -29,6 +37,7 @@ public class Settings
             }
             
         }
+        */
     }
     
     /**
@@ -50,27 +59,13 @@ public class Settings
             // if there are is not a last load properties, set one up.
             File afile = new File(userPropertiesFile);
             if (!(afile.isFile())) {
-                System.out.println("First run, using default properties");
+                LOGGER.warning("First run, using default properties");
             }
         } catch(IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
         return defaultProps;
-    }
-    
-    /**
-     * Get all of the plugins.
-     * key = "plugins", they are comma seperated.
-     */
-    private String[] getPluginFiles() {
-        String[] plugins = applicationProps.getProperty("plugins").split(",");
-        for(int i = 0; i < plugins.length; i++) {
-            plugins[i] += ".plugin";
-        }
-        return plugins;
-        //return Arrays.stream(applicationProps.getProperty("plugins").split(","))
-        //        .map(s -> s += ".plugin").toArray(String[]::new);
     }
     
     /**
