@@ -1,3 +1,6 @@
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.*;
 /**
@@ -11,7 +14,7 @@ public class AppPlugin
     private final static Logger LOGGER =
             Logger.getLogger(AppPlugin.class.getName());
     private Settings settings;
-    private static String[] requiredFields = {"name", "test"};
+    private static String[] requiredFields = {"file_location"};
     private HashMap<String, App> apps;
     public AppPlugin() {
         apps = new HashMap<>();
@@ -26,6 +29,7 @@ public class AppPlugin
             try {
                 app = new App(appName);
                 apps.put(appName, app);
+                app.start();
             } catch (Exception e) {
                 LOGGER.warning("App: "+appName+" failed to load. "+e);
             }
@@ -59,6 +63,7 @@ public class AppPlugin
      */
     public class App
         extends Props {
+        private String fileLocation;
         public App(String file) throws Exception {
             super(file);
 
@@ -68,9 +73,32 @@ public class AppPlugin
                 if (! properties.containsKey(field)) {
                     throw new Exception(file + " is missing "+field);
                 }
+                fileLocation = fileLocation();
             }
         }
+        public void start() {
+            try {
+                if (properties.getProperty("is_exe") != null && properties.getProperty("is_exe").toLowerCase().equals("true")) {
+                        Process process = new ProcessBuilder(fileLocation).start();
+                } else {
+                    File file = new File(fileLocation);
 
+                    //first check if Desktop is supported by Platform or not
+                    if(!Desktop.isDesktopSupported()){
+                        System.out.println("Desktop is not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if(file.exists()) desktop.open(file);
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        public String fileLocation() {
+            return properties.getProperty("file_location");
+        }
         public String name() {
             return properties.getProperty("name");
         }

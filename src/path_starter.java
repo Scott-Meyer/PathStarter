@@ -80,6 +80,6 @@ public class path_starter {
         for(String plugin : plugins.keySet()) {
             plugins.get(plugin).startup(settings);
         }
-        //path = new Path(settings);
+        path = new Path(settings);
     }
 }
