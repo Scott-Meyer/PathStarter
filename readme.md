@@ -1,11 +1,25 @@
 # Project Path Starter!
 
+# Howto
+
+Update default.properties with:
+1. your preferred neversink color.
+2. The location of your POE (or poe launcher) exe.
+
+In the apps folder create files for every app you want start with poe. Follow the example of the existing sample files.
+
+Run PathStarter.Jar.
+
+Note: Requires Java >= 8 on system.
+
+
+# About
 This project serves two purposes for me.
 
-##First - To live.
+## First - To live.
 I hate when I die because I forgot to turn on my logout macro
 
-##Second - To learn.
+## Second - To learn.
 I graduated collage less than a year ago and got a job at a large company which uses Java.
 
 My school had very little Object Orented, and we mostly used Racket (LISP). The company that I now work for

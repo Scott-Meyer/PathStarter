@@ -82,13 +82,15 @@ public class NeversinkUpdater
                 File dir = new File(filterName);
                 File dest = new File(lootFilterLocation);
                 String[] extensions = new String[]{"filter"};
-                String color = settings.getSetting(this.getClass().getName() + "color");
-
+                String color = settings.getSetting(this.getClass().getName() + ".color");
                 List<File> files;
-                if (color == null || color.equals("all"))
+                if (color == null || color.equals("all")) {
+                    LOGGER.info("Going to move all neversink filters into your filter folder. Enjoy that.");
                     files = (List<File>) FileUtils.listFiles(dir, extensions, true);
-                else
+                } else {
+                    LOGGER.info("Going to move "+color+" never sink filtes into your filter folder.");
                     files = (List<File>) FileUtils.listFiles(dir, new WildcardFileFilter("*" + color + "*" + ".filter"), TrueFileFilter.TRUE);
+                }
                 for (File file : files) {
                     try {
                         FileUtils.copyFileToDirectory(file, dest);
