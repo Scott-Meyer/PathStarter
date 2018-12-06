@@ -11,8 +11,10 @@ import java.util.logging.Logger;
 
 /**
  * Gets the settings from properties.
+ * TODO Make case not matter for getSetting.
  * TODO search a plugin folder for all .plugin files, add their settings into this object cleanly.
  * TODO saving of settings that get changed (Probably wait for GUI implementation)
+ * TODO I liked messing around with the default settings file and local changes file, but while it was fun to learn, seems unessiary in practice. Atleast copy the defaults into the user file...
  * @author srmeyer
  *
  **/
@@ -20,13 +22,13 @@ public class Settings
     extends Props{
     private final static Logger LOGGER =
             Logger.getLogger(Settings.class.getName());
-    private static String defaultPropertiesFile = "defaultProperties";
-    private static String userPropertiesFile = "userProperties";
+    private static String defaultPropertiesFile = "default.properties";
+    private static String userPropertiesFile = "user.properties";
     public static String[] plugins;
 
     public Settings() {
         super(userPropertiesFile, setupDefaults());
-        plugins = properties.getProperty("plugins").split(",");
+        plugins = list(properties.getProperty("plugins"));
 
         /*
         for (String plugin : applicationProps.getProperty("plugins").split(",")) {
@@ -68,33 +70,7 @@ public class Settings
         }
         return defaultProps;
     }
-    
-    /**
-     * return weather or not steam is used to start POE.
-     * If the property doesn't exist, assume false.
-     * @return
-     */
-    public boolean isSteam() {
-        if (getSetting("steam") != null) {
-            String steam = properties.getProperty("steam").toLowerCase();
-            if (steam.equals("true"))
-                return true;
-            else
-                return false;
-        } else {
-            return false;
-        }
-    }
-    
-    public String pathExeLocation() {
-        if (getSetting("poe_exe") != null) {
-            return getSetting("poe_exe");
-        } else {
-            LOGGER.severe("PATH EXE LOCATION MISSING!");
-        }
-        System.exit(1);
-        return null;
-    }
+
 
     public String getSetting(String setting) {
         return properties.getProperty(setting);
@@ -103,6 +79,29 @@ public class Settings
     public void setSetting(String setting, String value) {
         properties.setProperty(setting, value);
         save();
+    }
+
+    /**
+     * if your property is a comma serperated list, this will set it up into an array.
+     * @param ls comma seperated list
+     * @return array of items.
+     */
+    public String[] list(String ls) {
+        String[] ret = ls.split(",");
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = ret[i].trim();
+        }
+        return ret;
+    }
+
+    /**
+     * Get the settings of a plugin.
+     * @param plugin the name of a plugin
+     * @return list of all properties that start with [pluginName].
+     */
+    public String[] getPluginSettings(String plugin) {
+        return properties.stringPropertyNames().stream()
+                .filter(x -> x.split("\\.")[0].equals(plugin)).toArray(String[]::new);
     }
 
 }

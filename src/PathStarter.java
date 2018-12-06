@@ -11,14 +11,14 @@ import java.util.logging.*;
  * @author srmeyer
  *
  */
-public class path_starter {
+public class PathStarter {
     /**
      * Gets the program running.
      * @param args
      */
     private static Settings settings;
     private final static Logger gLogger = Logger.getGlobal();
-    private final static Logger LOGGER = Logger.getLogger(path_starter.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(PathStarter.class.getName());
     public static HashMap<String, Plugin> plugins;
     public static Path path;
 
@@ -36,7 +36,7 @@ public class path_starter {
 
 
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        //executorService.scheduleAtFixedRate(path_starter::myTask, 0, 1, TimeUnit.SECONDS);
+        //executorService.scheduleAtFixedRate(PathStarter::myTask, 0, 1, TimeUnit.SECONDS);
     }
 
     /**
@@ -64,11 +64,15 @@ public class path_starter {
     }
     /**
      * This function is a busy loop that keeps track of everything.
+     * Should be changed to take a filtered map of only RunningPlugins, so the code is more minimal.
+     * That, or just merge RunningPlugin/Plugin and put empty run functions in everything.
      */
     private static void myTask() {
         System.out.println(path.isPathOpen());
         for(String plugin : plugins.keySet()) {
-            plugins.get(plugin).run();
+            Object pluginObject = plugins.get(plugin);
+            if (pluginObject instanceof RunningPlguin)
+                ((RunningPlguin)pluginObject).run();
         }
     }
 
@@ -80,6 +84,5 @@ public class path_starter {
         for(String plugin : plugins.keySet()) {
             plugins.get(plugin).startup(settings);
         }
-        path = new Path(settings);
     }
 }
