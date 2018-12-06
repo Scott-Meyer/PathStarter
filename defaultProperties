@@ -1,4 +1,7 @@
 plugins=AppPlugin,LootFilters
 steam=true
+poe_exe=C:/Program Files (x86)/Steam/steamapps/common/Path of Exile/PathOfExile_x64Steam.exe
 
-AppPlugin.Apps = trademacro,logout
+AppPlugin.Apps = trademacro, logout
+LootFilters.Filters = neversink
+LootFilters.neversink.github = https://github.com/NeverSinkDev/NeverSink-Filter

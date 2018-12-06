@@ -7,6 +7,7 @@ import java.util.logging.*;
 
 /**
  * https://www.baeldung.com/java-9-process-api has children stuffs.
+ * TODO make the plugin startup functions run multithreaded.
  * @author srmeyer
  *
  */
@@ -34,25 +35,7 @@ public class path_starter {
         startup();
 
 
-        //Lets do something for each plugin.
-        /*
-        for (String plg : settings.plugins.keySet()) {
-            Plugin plugin = settings.plugins.get(plg);
-            System.out.println(plugin);
-            System.out.println(plugin.name());
-        }
-        System.out.println("Hello World");
-        
-        LootFilters l = new LootFilters();
-        
-        try {
-            Process process = new ProcessBuilder("C:\\Windows\\system32\\cmd.exe").start();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        */
-        //final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         //executorService.scheduleAtFixedRate(path_starter::myTask, 0, 1, TimeUnit.SECONDS);
     }
 
@@ -82,8 +65,8 @@ public class path_starter {
     /**
      * This function is a busy loop that keeps track of everything.
      */
-    private void myTask() {
-        System.out.println("Hello");
+    private static void myTask() {
+        System.out.println(path.isPathOpen());
         for(String plugin : plugins.keySet()) {
             plugins.get(plugin).run();
         }
@@ -97,6 +80,6 @@ public class path_starter {
         for(String plugin : plugins.keySet()) {
             plugins.get(plugin).startup(settings);
         }
-        path = new Path(settings);
+        //path = new Path(settings);
     }
 }

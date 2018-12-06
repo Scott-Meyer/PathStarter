@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.logging.*;
 /**
  * Class for every plugin.
+ * TODO Starting of the apps, monitoring if the apps are running, updating the apps, using the settings files in any way.
  * @author srmeyer
  *
  */
@@ -41,11 +42,11 @@ public class AppPlugin
      * @return array of app names
      */
     public String[] getAppNames() {
-        String apps = settings.applicationProps.getProperty("AppPlugin.Apps");
+        String apps = settings.getSetting("AppPlugin.Apps");
         if (apps != null) {
             String[] appNames = apps.split(",");
             for (int i=0; i < appNames.length; i++) {
-                appNames[i].trim();
+                appNames[i] = appNames[i].trim();
                 appNames[i] += ".app";
             }
             return appNames;

@@ -44,7 +44,7 @@ public class Props {
      */
     public void save() {
         try {
-            FileOutputStream out = new FileOutputStream("appProperties");
+            FileOutputStream out = new FileOutputStream("userProperties");
             properties.store(out, "---No Comment---");
             out.close();
         } catch (IOException e) {
