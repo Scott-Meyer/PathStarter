@@ -11,12 +11,14 @@ import java.util.Properties;
  */
 public class Props {
     protected Properties properties = null;
+    private String propertiesFile;
 
     public Props(String file) {
         this(file, null);
     }
 
     public Props(String file, Properties prop) {
+        propertiesFile = file;
         // create and load default properties
         if (prop == null) {
             properties = new Properties();
@@ -44,7 +46,7 @@ public class Props {
      */
     public void save() {
         try {
-            FileOutputStream out = new FileOutputStream("userProperties");
+            FileOutputStream out = new FileOutputStream(propertiesFile);
             properties.store(out, "---No Comment---");
             out.close();
         } catch (IOException e) {
