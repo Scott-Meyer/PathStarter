@@ -1,8 +1,11 @@
-import java.io.IOException;
+import org.jutils.jprocesses.JProcesses;
+import org.jutils.jprocesses.model.ProcessInfo;
+
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.*;
 
 /**
@@ -12,23 +15,23 @@ import java.util.logging.*;
  *
  */
 public class PathStarter {
-    /**
-     * Gets the program running.
-     * @param args
-     */
+
     private static Settings settings;
     private final static Logger gLogger = Logger.getGlobal();
     private final static Logger LOGGER = Logger.getLogger(PathStarter.class.getName());
     public static HashMap<String, Plugin> plugins;
     public static Path path;
 
+    /**
+     * Gets the program running.
+     * @param args
+     */
     public static void main(String[] args) {
         //ARG why did I bother with logging then not research it fully. Here, this'll do.
         System.setProperty("java.util.logging.SimpleFormatter.format","%4$s: %5$s [%2$s]%n");
         ConsoleHandler handler = new ConsoleHandler();
         handler.setFormatter(new SimpleFormatter());
         gLogger.addHandler(handler);
-
 
         settings = new Settings();
         plugins = initializePlugins(settings.plugins);

@@ -54,4 +54,14 @@ public class Props {
             e.printStackTrace();
         }
     }
+
+    public Boolean getBoolSetting(String s, Boolean defaultValue) {
+        String setting = properties.getProperty(s);
+        if (setting == null)
+            return defaultValue;
+        else if (setting.toLowerCase().equals("true"))
+            return true;
+        else
+            return false;
+    }
 }
